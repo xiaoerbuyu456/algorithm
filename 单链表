@@ -1,0 +1,110 @@
+#include "stdafx.h"
+#include <cstdio>
+#include <cstdlib>
+#include <malloc.h>
+using namespace System;
+
+//链表的练习
+//结构体的定义(以输入学生信息为模型进行定义,可变通)
+struct LinkNode{
+int number;
+char name[20];
+LinkNode * next;
+};
+int count=0;  //用来记录链表节点的个数
+struct LinkNode* CreatLinkList()
+{
+	//头指针的初始化
+	struct LinkNode * phead=NULL;
+	//节点的初始化
+	struct LinkNode* pnew,*pend;//pnew为节点的增加开辟新的空间,pend用来进行记录以便更新链表
+	pnew=pend=(struct LinkNode *)malloc(sizeof(struct LinkNode)); 
+	printf("please input headnode\n");
+	scanf("%d",&pnew->number);//初始化头节点
+	scanf("%s",pnew->name);
+	while(pnew->number!=0)
+	{
+		count++;
+		if(count==1)
+		{
+			pnew->next=phead;
+			pend=pnew;
+			phead=pnew;
+		}
+		else
+		{
+			pnew->next=NULL;
+			pend->next=pnew;
+			pend=pnew;
+		}
+		pnew=(struct LinkNode*)malloc(sizeof(struct LinkNode ));
+		scanf("%d",&pnew->number);
+		scanf("%s",pnew->name);
+	}
+	free(pnew);
+	return phead;
+}
+//向链表中插入元素
+struct LinkNode*  Insert(struct LinkNode *pionter,int position)
+{
+	struct LinkNode* insert,*temp=pionter;//insert是要插入的元素,temp用来记录更新链表
+	insert=(struct LinkNode *)malloc(sizeof(struct LinkNode));
+	printf("please input the student info\n");
+	scanf("%d",&insert->number);
+	scanf("%s",insert->name);
+	while(temp->next!=NULL)
+	{
+		temp=temp->next;		
+		if(temp->number==position)
+		{
+			insert->next=temp->next;
+			temp->next=insert;
+			count++;
+			break;
+		}
+	}
+
+	return pionter;
+}
+//向链表中删除元素
+struct LinkNode* DelList(struct LinkNode* pup,int studentNumber)
+{
+	struct LinkNode* temp=pup,*pre=pup;
+
+	while(pup->next!=NULL)
+	{
+		pup=pup->next;
+		if(pup->number==studentNumber)
+		{
+			pre->next=pup->next;
+			pup->next=NULL;
+		}
+		pre=pup;
+	}
+	return pup;
+}
+//打印链表
+void print(struct LinkNode*output)
+{
+	struct LinkNode*pup=output;
+	while(pup->next!=NULL)
+	{
+		printf("This is the %d student:\n",count--);
+		printf("The student's number is:%d\n",pup->number);
+		printf("The student's name is:%s\n",pup->name);
+		pup=pup->next;
+	}
+}
+
+int main(array<System::String ^> ^args)
+{
+	struct LinkNode * pp;
+	pp=CreatLinkList();
+	print(pp);
+	Insert(pp,002);
+	print(pp);
+	DelList(pp,110);
+	print(pp);
+	system("pause");
+    return 0;
+}
