@@ -68,12 +68,16 @@ namespace sortalgorithm
 	和数组元素的个数有关，内层循环控制需要参与比较的元素个数，和外层循环的轮数有关，
 	当比较的轮数增大时，已经找到位置的元素个数随之增大，那么内层待比较的元素个数随之减小。*/
 	template<typename T>
-	void bubblesort(T arr[], int n)
-	{
-		for (int i = n - 1; i > 0; i--)
-		{
-			for (int j = 0; j < n &&arr[j]>arr[j+1]; j++)
-				swap(arr[j], arr[j + 1]);
+	void bubbleSort (T arr[], int len) {
+	    T temp;
+	    int i, j;
+	    for (i=0; i<len-1; i++) /* 外循环为排序趟数，len个数进行len-1趟 */
+		for (j=0; j<len-1-i; j++) { /* 内循环为每趟比较的次数，第i趟比较len-i次 */
+		    if (arr[j] > arr[j+1]) { /* 相邻元素比较，若逆序则交换（升序为左大于右，降序反之） */
+			temp = arr[j];
+			arr[j] = arr[j+1];
+			arr[j+1] = temp;
+		    }
 		}
 	}
 
