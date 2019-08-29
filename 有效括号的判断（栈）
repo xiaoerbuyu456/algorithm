@@ -1,0 +1,148 @@
+有效括号使用栈的特点进行实现，栈的实现可用链表（动态栈）和数组（静态栈）
+//有效的括号（使用链表创建栈实现动态栈）
+void vaildsign()
+{
+	//creat linklist stack
+	struct node
+	{
+		char data;
+		node* pre;
+		node* next;
+	};
+	struct node *head;//init
+	head=(struct node *)malloc(sizeof(struct node));
+	head->data=0;
+	head->pre=NULL;
+	head->next=NULL;
+	struct node*pnew,*pend;
+	pnew=(struct node *)malloc(sizeof(struct node));
+	printf("please input !\n");
+	char ch;
+	int count=0;
+	while(ch!='\n')
+	{
+		
+		ch=getchar();
+		count++;
+
+
+		if(ch=='('||ch=='{'||ch=='[')//push stack
+		{
+			if(count==1)
+			{
+				pnew->data=ch;
+				pnew->next=head->next;
+				pnew->pre=head;
+				head->next=pnew;
+				pend=pnew;
+			}
+			else
+			{
+				pnew->data=ch;
+				pnew->next=pend->next;
+				pnew->pre=pend;
+				pend->next=pnew;
+				pend=pnew;
+			}
+		}
+		else if(ch==')'||ch=='}'||ch==']')//pop stack
+		{
+			if(ch==')')
+			{
+				if(pend->data=='(')
+				{
+					pend=pend->pre;
+					pend->next=NULL;
+					free(pnew);
+				}
+				else
+				{
+					printf("illigal input!\n");
+				}
+			}
+			if(ch==']')
+			{
+				if(pend->data=='[')
+				{
+					pend=pend->pre;
+					pend->next=NULL;
+					free(pnew);
+				}
+				else
+				{
+					printf("illigal input!\n");
+				}
+			}
+			if(ch=='}')
+			{
+				if(pend->data=='{')
+				{
+					pend=pend->pre;
+					pend->next=NULL;
+					free(pnew);
+				}
+				else
+				{
+					printf("illigal input!\n");
+				}
+			}
+			
+		}
+		else
+			printf("Illigal input!\n");
+        pnew=(struct node*)malloc(sizeof(struct node));
+	}
+	if(head->next==NULL)
+	{
+		printf("is right!\n");
+	}
+	else
+	{
+		printf("is erro!\n");
+	}
+
+	free(head);
+	free(pnew);
+}
+
+//使用数组实现静态栈的实现
+#define arrsize 100//定义数组大小
+void vaildsign1()
+{
+	char arr[arrsize];
+	char ch;
+	int tail=0;
+	printf("please input!\n");
+	while(ch!='\n')
+	{
+		ch=getchar();
+		if(ch=='('||ch=='{'||ch=='[')
+		{
+			arr[tail]=ch;
+			tail++;
+		}
+		if(tail!=0)
+		{
+			if(ch==')'||ch=='}'||ch==']')
+			{
+				if(ch==')'&&arr[tail-1]=='(')
+					tail--;	
+				else if(ch==']'&&arr[tail-1]=='[')
+					tail--;	
+				else if(ch=='}'&&arr[tail-1]=='{')
+					tail--;	
+				else
+				    printf("illigal input!\n");	
+			}
+		}
+	}
+	if(tail==0)
+	{
+		printf("Input is right!\n");
+	}
+	else
+	{
+		printf("Input is illigal\n");
+	}
+	
+}
