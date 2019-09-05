@@ -1,0 +1,88 @@
+方法一：
+开辟一个新的数组（动态数组）进行比较和赋值
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
+    int* nums;
+    nums=(int*)malloc(nums1Size*sizeof(int));
+    int temp=0;int temp1=0;int temp2=0;
+    for(temp=0;temp<nums1Size;temp++)
+    {
+        if(temp1>=m)
+        {
+            nums[temp]=nums2[temp2];
+            temp2++;
+        }
+        else if(temp2>=n)
+        {
+            nums[temp]=nums1[temp1];
+            temp1++;
+        }
+        else if(nums1[temp1]>nums2[temp2])
+        {
+            nums[temp]=nums2[temp2];
+            temp2++;
+        }
+        else if(nums1[temp1]<=nums2[temp2])
+        {
+            nums[temp]=nums1[temp1];
+            temp1++;
+        }
+        else 
+            break;
+    }
+	nums1=nums;
+   
+    for(int i=0;i<nums1Size;i++)
+    {
+        
+		printf("%d",nums[i]);
+    }
+	printf("\n");
+    free(nums);
+}
+方法二：
+在数组中操作，亮点是从数组的末尾进行合并
+void merge(int* nums1, int nums1Size, int m, int* nums2, int nums2Size, int n){
+
+    int temp=nums1Size-1;
+    int temp1=m-1;
+    int temp2=n-1;
+    if(m>0)
+    {
+        while(temp1>=0 && temp2>=0)
+        {
+            if(temp1<0)
+            {
+                nums1[temp]=nums2[temp2];
+                temp--;
+                temp2--;
+            }
+            else if(temp2<0)
+            {
+                nums1[temp]=nums1[temp1];
+                temp--;
+                temp1--;
+            }
+            if(nums1[temp1]>nums2[temp2])
+            {
+                nums1[temp]=nums1[temp1];
+                temp--;
+                temp1--;
+
+            }
+            else
+            {
+                nums1[temp]=nums2[temp2];
+                temp--;
+                temp2--;
+            }
+
+        }
+        if(m==0)
+        {
+    
+                nums1=nums2;
+        }        
+
+    }
+
+}
